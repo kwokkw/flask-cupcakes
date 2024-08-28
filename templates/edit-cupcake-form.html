@@ -1,0 +1,20 @@
+{% extends "index.html" %} {% block title %}Edit Cupcake Form{% endblock %} {%
+block content %}
+<div class="container">
+  <h1 class="mb-4">Edit Cupcake Form</h1>
+
+  <form class="form-control update-form">
+    <input type="hidden" id="cupcake-id" value="{{cupcake.id}}" /> {{
+    form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+    "hidden" %}
+    <div class="form-group row m-4">
+      {{ field.label(class_="form-label")}} {{ field }}
+    </div>
+    {% endfor %}
+    <button class="btn btn-primary m-4" id="save-update" type="submit">
+      Save
+    </button>
+  </form>
+</div>
+
+{% endblock %}

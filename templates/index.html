@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <title>{% block title %}Document{% endblock %}</title>
+  </head>
+
+  <body>
+    {% block content %}
+    <div class="container">
+      <div class="mt-4">
+        {% for msg in get_flashed_message %} {{msg}} {% endfor %}
+      </div>
+      <!-- Search cupcake form -->
+      <form action="" class="row justify-content-center" id="search-form">
+        <input
+          type="text"
+          class="form-control m-2 w-25"
+          id="search-term"
+          name="search-term"
+          placeholder="Search..."
+        />
+        <button class="col-2 btn btn-primary btn-sm m-2" id="search-btn">
+          Search
+        </button>
+      </form>
+
+      <h1 class="text-center display-3">Cupcake List</h1>
+
+      <div class="row justify-content-center">
+        <div class="col-6">
+          <!-- Cupcake list -->
+          <ul class="list-group"></ul>
+
+          <!-- Add cupcake form -->
+          <form
+            action="/api/cupcakes"
+            method="POST"
+            class="mt-2 mb-2 form-control add-cupcake-form"
+          >
+            <h2 class="text-center mt-4">Add Cupcake</h2>
+            {{ form.hidden_tag() }} {% for field in form if
+            field.widget.input_type != "hidden" %}
+            <p class="">
+              {{ field.label(class_="form-label") }} {{
+              field(class_="form-control", id_=field.id) }}
+            </p>
+
+            {% endfor %}
+            <button class="btn btn-success mt-2 add-cupcake" type="submit">
+              Add
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}
+    <!-- script tags for Axios, jQuery, cupcakes -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="../static/cupcakes.js"></script>
+  </body>
+</html>
