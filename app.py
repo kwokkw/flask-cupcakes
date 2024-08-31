@@ -119,9 +119,6 @@ def create_cupcake():
         # Save the new cupcake to the database
         db.session.commit()
 
-        # Flash message
-        flash(f"Cupcake '{new_cupcake.flavor}' has been successfully added!")
-
         # Converts Python dictionaries into JSON strings
         # Creates a JSON object where the key is `cupcake` and the
         # value is the serialized cupcake dictionary returned by

@@ -38,14 +38,12 @@ class Cupcake {
   // search cupcake
   static async searchCupcake(searchTerm) {
     try {
-      // Takes a search term and sends a GET request to the server
-      // with the search term as parameter
       const resp = await axios.get("/api/cupcakes/search", {
         params: {
           term: searchTerm,
         },
       });
-      // Returns the filtered cupcakes data.
+
       return resp.data.cupcakes;
     } catch (err) {
       console.error("Error: ", err);
@@ -54,11 +52,9 @@ class Cupcake {
 
   // *** INSTANCE METHODS ***
 
-  // updating cupcake
+  // updating cupcakes
   async updateCupcake(id, data) {
     try {
-      // Sends a PATCH request to update a cupcake
-      // `await` pauses the function execution until the request is completed and the response is received.
       const resp = await axios.patch(`/api/cupcakes/${id}`, data);
       console.log(resp.data);
       return resp.data.cupcake;
@@ -67,12 +63,9 @@ class Cupcake {
     }
   }
 
-  // delete cupcake
-  // Asynchronous function takes an `id` argument
+  // delete cupcakes
   async deleteCupcake(id) {
     try {
-      // Sends a DELETE request to the server to remove a cupcake
-      // `await` pauses the function execution until the request is completed and the response is received
       const resp = await axios.delete(`/api/cupcakes/${id}`);
       console.log(resp.data);
 
@@ -82,22 +75,14 @@ class Cupcake {
     }
   }
 
-  // Takes an array of cupcakes and updates the HTML to display them.
   dispalyCupcakes(cupcakes) {
-    // Clear existing list
     $(".list-group").empty();
-
-    // Loop through cupcakes
     for (let cupcake of cupcakes) {
-      // Generate HTML for each cupcake
       const newLi = this.makeLiHTML(cupcake);
-
-      // Append HTML to the list
       $(".list-group").append(newLi);
     }
   }
 
-  // Creates an HTML for a single cupcake list item
   makeLiHTML(cupcake) {
     return `<li class="list-group-item d-flex justify-content-between align-items-center" data-id="${cupcake.id}">${cupcake.flavor}
         <a href="/edit-cupcake/${cupcake.id}" class="btn btn-primary btn-sm">Update</a>
@@ -110,7 +95,7 @@ class Cupcake {
     // Using an arrow function to preserve the context ('this'),
     // ensure that 'this` refers to the `Cupcake` instance,
     // Allowing me to access its properties correctly such as `$cupcakeList`
-    $(".add-cupcake").on("submit", async (e) => {
+    $(".add-cupcake").on("click", async (e) => {
       e.preventDefault();
 
       const $flavor = $("#flavor").val();
@@ -127,19 +112,12 @@ class Cupcake {
         csrf_token: $csrfToken,
       };
 
-      try {
-        const newCupcake = await Cupcake.createCupcake(formData);
-        console.log(newCupcake);
+      const newCupcake = await Cupcake.createCupcake(formData);
 
-        if (newCupcake) {
-          // Update the UI with the new cupcake.
-          const newLi = this.makeLiHTML(newCupcake);
-          this.$cupcakeList.append(newLi);
-        } else {
-          console.error("Error creating cupcake: No cupcake data returned.");
-        }
-      } catch (err) {
-        console.error("Error creating cupcake: ", error);
+      if (newCupcake) {
+        // Update the UI with the new cupcake.
+        const newLi = this.makeLiHTML(newCupcake);
+        this.$cupcakeList.append(newLi);
       }
 
       $("#flavor").val("");
@@ -172,7 +150,7 @@ class Cupcake {
     });
 
     // Update cupcake event listener
-    $("#save-update").on("submit", async (e) => {
+    $("#save-update").on("click", async (e) => {
       e.preventDefault();
       // Get the cupcake ID (assuming it's stored somewhere or passed to this form)
 
